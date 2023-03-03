@@ -101,8 +101,10 @@ namespace Timing {
 	private:
 		std::vector<InstrumentationData> m_data;
 		size_t m_threadID;
+		bool m_isEnabled = false;
 
 		void Add(const InstrumentationData& data) {
+			if (!m_isEnabled) return;
 			m_data.push_back(data);
 		}
 
@@ -113,6 +115,20 @@ namespace Timing {
 		static Instrumentor& Instance() {
 			static Instrumentor instance;
 			return instance;
+		}
+
+		/// <summary>
+		/// Enables receiving Instrumentation Data
+		/// </summary>
+		void Enable() {
+			m_isEnabled = true;
+		}
+
+		/// <summary>
+		/// Disables receiving Instrumentation Data
+		/// </summary>
+		void Disable() {
+			m_isEnabled = false;
 		}
 
 		/// <summary>
